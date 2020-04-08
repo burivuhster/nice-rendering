@@ -1,17 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+//// PAGES
+import Phrases from './Phrases'
+import Test from './Test'
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+//// THEME
+import { CssBaseline, Container } from '@material-ui/core'
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { blue } from '@material-ui/core/colors'
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: blue[500]
+    },
+    type: 'dark'
+  }
+})
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Container maxWidth='md'>
+          <Switch>
+            <Route path='/' component={Phrases} exact />
+            <Route component={Test} />
+          </Switch>
+        </Container>
+      </ThemeProvider>
+    </BrowserRouter>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
