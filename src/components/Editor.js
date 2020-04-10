@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import { Grid, Box, IconButton } from '@material-ui/core'
 import { Delete, Add } from '@material-ui/icons'
 
 import OneHalfEditor from './Editor.OneHalf'
 
-export default ({ phrase, onAddNextTo, setAttr, onDelete }) => {
+// Добавил React.memo - это мемоизация результата вызова Editor для одинаковых параметров
+// Без нее реакт для функциональных компонентов (также как и для компонентов-классов) вызывает рендер снова, независимо от того, поменялись ли пропсы
+// React.memo - это для функциональных компонентов как React.PureComponent для компонентов-классов)
+export default React.memo(function Editor({ phrase, onAddNextTo, setAttr, onDelete }) {
+  const onDeleteClick = useCallback(() => { onDelete(phrase._id) }, [onDelete, phrase]);
+  const onAddNextClick = useCallback(() => { onAddNextTo(phrase._id) }, [onAddNextTo, phrase]);
+
   return (
     <div>
       <Grid container direction='row-reverse'>
-        <IconButton onClick={onDelete} color='secondary'>
+        <IconButton onClick={onDeleteClick} color='secondary'>
           <Delete />
         </IconButton>
       </Grid>
@@ -22,10 +28,10 @@ export default ({ phrase, onAddNextTo, setAttr, onDelete }) => {
         </Grid>
       </Grid>
       <Box m={1}>
-        <IconButton onClick={onAddNextTo} color='primary' style={{ position: 'absolute' }}>
+        <IconButton onClick={onAddNextClick} color='primary' style={{ position: 'absolute' }}>
           <Add />
         </IconButton>
       </Box>
     </div>
   )
-}
+})

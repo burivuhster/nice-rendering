@@ -3,14 +3,14 @@ import React from 'react'
 import { Grid, Paper, Box, IconButton, TextField } from '@material-ui/core'
 import { VolumeOff, Pause, VolumeUp, Mic, FlashAuto, GTranslate } from '@material-ui/icons'
 
-export default ({ direction, phrase, setAttr }) => {
+export default function OneHalfEditor({ direction, phrase, setAttr }) {
   const directionReverse = direction === 'to' ? 'from' : 'to'
   const lang = 'EN'
 
   const sound = phrase[direction].sound
 
   const text = phrase[direction].text
-  const setText = text => setAttr(direction, 'text', text)
+  const setText = text => setAttr(phrase._id, direction, 'text', text)
   const textReverse = phrase[directionReverse].text
 
   const track = null
